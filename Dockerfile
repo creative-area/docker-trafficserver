@@ -12,17 +12,16 @@ RUN buildDeps="libssl-dev tcl-dev libexpat1-dev libpcre3-dev libtool libaio-dev 
 	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p /usr/src/ts \
+	&& mkdir -p /opt/src/ts \
 	&& curl -sSL "$TS_DOWNLOAD_URL" -o ts.tar.bz2 \
-	&& tar -xjf ts.tar.bz2 -C /usr/src/ts --strip-components=1 \
+	&& tar -xjf ts.tar.bz2 -C /opt/src/ts --strip-components=1 \
 	&& rm ts.tar.bz2 \
-	&& cd /usr/src/ts \
+	&& cd /opt/src/ts \
 	&& ./configure --prefix=/opt/ts \
 	&& make \
-	&& make check \
 	&& make install \
-	&& rm -r /usr/src/ts
+	&& rm -r /opt/src/ts
 
 EXPOSE 8080
 
-CMD ["/opt/ts/bin/traffic_server"]
+CMD ["/opt/ts/bin/traffic_manager"]
