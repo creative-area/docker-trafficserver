@@ -22,6 +22,13 @@ RUN buildDeps="libssl-dev tcl-dev libexpat1-dev libpcre3-dev libtool libaio-dev 
 	&& make install \
 	&& rm -r /opt/src/ts
 
-EXPOSE 8080
+COPY start.sh /start.sh
 
-CMD ["/opt/ts/bin/traffic_manager"]
+ENV TS_PORT 8080
+ENV TS_STORAGE_SIZE 256M
+
+ENV PROXY_CONFIG_HTTP_SERVER_PORTS $TS_PORT
+
+EXPOSE $TS_PORT
+
+CMD ["/start.sh"]
